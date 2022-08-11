@@ -1,20 +1,28 @@
 package tests;
 
-import lib.Props;
-import lib.Web;
+import lib.Reporter;
+import lib.XL;
 import pages.HomePage;
 import pages.LoginPage;
 
 public class LoginTest extends BaseTest {
-	public LoginTest(String envFile, String browserType) {
-		super(envFile, browserType);
-		// TODO Auto-generated constructor stub
+	public LoginTest(String envFile, String browserType,Reporter reporter,XL xl) {
+		super(envFile, browserType, reporter, xl);
 	}
 
 	public void runScript() {
+		System.out.println("login class");
+		//String email = p.get("email");
+		//	String password = p.get("password");
+		
+		int row =2;
+		String email = xl.getCellData(row,"UserName");
+		String password = xl.getCellData(row,"Password");
+		
+		System.out.println("Login email "+email);
+		System.out.println("Login Password "+password);
+		
 
-		String email = p.get("email");
-		String password = p.get("password");
 
 		LoginPage login = new LoginPage(web);
 
@@ -23,8 +31,13 @@ public class LoginTest extends BaseTest {
 		hm.gotItBtn().click();
 
 		login.emailText().sendKeys(email);
+		reporter.log("Enter user Name: "+email);
 		login.passwordText().sendKeys(password);
+		reporter.log("Enter password: "+password);
 		login.loginBtn().click();
+		reporter.log("Clicked on login Button");
+		login.authenticationTest(reporter);
+		
 
 	}
 

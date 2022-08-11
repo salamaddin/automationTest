@@ -3,9 +3,14 @@ package pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import lib.Reporter;
 import lib.Web;
 
-public class SignUpPage {
+public class SignUpPage extends BasePage {
+	public SignUpPage(Web web) {
+		super(web);
+	}
+
 	public String firstNameTextXP = "//input[contains(@name,'first_name')]";
 	public String lastNameTextXP = "//input[contains(@name,'last_name')]";
 	public String phoneTextXP = "//input[contains(@name,'phone')]";
@@ -15,12 +20,9 @@ public class SignUpPage {
 
 	public String toNavigateSignPageXP = "//a[@class='theme-btn theme-btn-small waves-effect']";
 	public String signUpBtnXP = "//span[normalize-space()='Signup']";
+	public String signUpSuccessXP ="//div[@class='alert alert-success signup']";
 
-	Web web = null;
 
-	public SignUpPage(Web web) {
-		this.web = web;
-	}
 
 	public WebElement navigateToSignUpPage() {
 		return web.getObject(toNavigateSignPageXP);
@@ -53,6 +55,14 @@ public class SignUpPage {
 	
 	public WebElement signUpBtn() {
 		return web.getObject(signUpBtnXP);
+	}
+	
+	public void authenticationTest(Reporter reporter) {
+		if (web.exists(signUpSuccessXP)) {
+			reporter.pass("SignUp Success");
+		} else {
+			reporter.fail("SignUp failed");
+		}
 	}
 	
 	

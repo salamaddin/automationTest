@@ -12,6 +12,7 @@ public class youtubeSearch {
 		WebDriver driver= new ChromeDriver();
 		driver.get("https://www.youtube.com/");
 		driver.findElement(By.xpath("//input[@id='search']")).sendKeys("java tutorial");
+		Thread.sleep(3000);
 		driver.findElement(By.xpath("//button[@id='search-icon-legacy']")).click();
 		Thread.sleep(4000);
 		WebElement button = driver.findElement(By.xpath("//yt-formatted-string[contains(@aria-label,'Java Tutorial for Beginners by Programming with Mosh')]"));

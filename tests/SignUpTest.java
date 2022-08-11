@@ -1,82 +1,65 @@
 package tests;
 
-import lib.Props;
+import lib.Reporter;
 import lib.Util;
-import lib.Web;
+import lib.XL;
 import pages.HomePage;
 import pages.SignUpPage;
 
 public class SignUpTest extends BaseTest {
 
-	public SignUpTest(String envFile, String browserType) {
-		super(envFile, browserType);
+	public SignUpTest(String envFile, String browserType,Reporter reporter,XL xl) {
+		super(envFile, browserType,reporter,xl);
 	}
-//	public static void main(String[] args) throws InterruptedException {
-//		String driverType = "chrome";
-//		
-//		if (args.length != 0) {
-//			driverType = args[0];
-//		}
 
 	@Override
 	public void runScript() {
-		SignUpPage signUp = new SignUpPage(web);
 		
 		Util util = new Util();
-		String email = util.randomString() + "@gmail.com";
+		//String email = util.randomString(10) + "@gmail.com";
+		//String password = p.get("password");
+		//p.set("email",email);
 		
-		p.updateProperties("email", email);
-		System.out.println(p.get("email"));
+		int row = 2;
+		String firstName = xl.getCellData(row,"FirstName");
+		String lastName = xl.getCellData(row,"LastName");
+		String mobileNum = xl.getCellData(row,"Phone");
+		String email = xl.getCellData(row,"Email");
+		String password = xl.getCellData(row,"Password");
+		String accountType = xl.getCellData(row, "AccountType");
+		
+		//String email2 = xl.getCellData(1,3);
+		//System.out.println("SignUp Email "+email +"passsword :" +password);
+		//String firstName = p.get("firstName");
+		//String lastName = p.get("lastName");
+		//String mobileNum=p.get("mobileNum");
+		//String accountType =p.get("accountType");
 		
 		HomePage hm = new HomePage(web);
 		hm.nevigateToLoginPage().click();
 		hm.gotItBtn().click();
 		
+		SignUpPage signUp = new SignUpPage(web);
+		
 		signUp.navigateToSignUpPage().click();
-		signUp.firstNameText().sendKeys("salam");
-		signUp.lastNameText().sendKeys("sk");
-		signUp.phoneText().sendKeys("7031050055");
+		signUp.firstNameText().sendKeys(firstName);
+		reporter.log("Enter first Name : "+firstName);
+		signUp.lastNameText().sendKeys(lastName);
+		reporter.log("Enter Last Name : "+lastName);
+		signUp.phoneText().sendKeys(mobileNum);
+		reporter.log("Enter Mobile Number : "+mobileNum);
 		signUp.emailText().sendKeys(email);
-		signUp.passwordText().sendKeys("1234");
-		signUp.selectAccountType("Agent");
+		reporter.log("Enter Email : "+email);
+		signUp.passwordText().sendKeys(password);
+		reporter.log("Enter password: "+password);
+		signUp.selectAccountType(accountType);
+		reporter.log("Account type : "+accountType);
 		signUp.signUpBtn().submit();
+		reporter.log("Clicked on signUp button");
+		signUp.authenticationTest(reporter);
 		
 	}
 }
-		
-//		Props p = new Props("env.properties");
-//		System.out.println(p.get("qa_env_url"));
-//		System.out.println(p.get("email"));
-		
-//		Web web = new Web(driverType);
-//		web.maximizeWindow();
-//		Thread.sleep(3000);
-//		web.launchUrl("https://phptravels.net/login");
-		
-		
-		
-//		Thread.sleep(3000);
-		
-//		SignUpPage signUp = new SignUpPage(web);
-//		LoginPage login = new LoginPage(web);
-//		
-//		Util util = new Util();
-//		String email = util.randomString() + "@gmail.com";
-//		
-//		p.updateProperties("email", email);
-//		System.out.println(p.get("email"));
-////		
-//		signUp.navigateToSignUpPage().click();
-//		signUp.firstNameText().sendKeys("salam");
-//		signUp.lastNameText().sendKeys("sk");
-//		signUp.phoneText().sendKeys("7031050055");
-//		signUp.emailText().sendKeys(email);
-//		signUp.passwordText().sendKeys("1234");
-//		signUp.selectAccountType("Agent");
-//		signUp.signUpBtn().submit();
-//		
-//		login.emailText().sendKeys(email);
-//		login.passwordText().sendKeys("1234");
-//		login.loginBtn().click();
-		
-//}
+
+
+

@@ -8,12 +8,25 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Util {
+	
+	public static void hold(int milliseconds) {
+		try {
+			Thread.sleep(milliseconds);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public String randomString() {
+		return randomString(5);
+	}
+	public String randomString(int n) {
 		
 		String Alphabets = "abcdefghijklmnopqrstuvxyz";
 
 		String result = "";
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < n; i++) {
 
 			int index = (int) (Alphabets.length() * Math.random());
 
@@ -34,15 +47,16 @@ public class Util {
 	}
 	
 	
-//	public void updateProperties(String key, String value) throws Exception {
-//		FileInputStream in = new FileInputStream("env.properties");
-//		Properties props = new Properties();
-//		props.load(in);
-//		in.close();
-//
-//		FileOutputStream out = new FileOutputStream("env.properties");
-//		props.setProperty(key,value);
-//		props.store(out, null);
-//		out.close();
-//	}
+	public  String getResourcePath(String fileName){
+		String path = "";
+		try {
+			 path =  this.getClass().getClassLoader().getResource(fileName).getPath();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return path;
+	}
+	
+	
 }
